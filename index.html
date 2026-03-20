@@ -198,26 +198,6 @@
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- AI Assistant Panel -->
-  <div class="assistant-panel" id="assistant-panel">
-    <div class="assistant-header">
-      <h3>🤖 AI Study Assistant</h3>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <button class="btn btn-secondary btn-sm" onclick="triggerImageUpload()" title="Upload doubt image"
-                style="padding:4px 8px;font-size:13px;">📸</button>
-        <button class="btn btn-secondary btn-sm" onclick="triggerPDFUpload()" title="Upload NCERT PDF"
-                style="padding:4px 8px;font-size:13px;">📄</button>
-        <div class="modal-close" onclick="toggleAssistant()">✕</div>
-      </div>
-    </div>
-    <div class="assistant-body" id="assistant-body"></div>
-    <div class="assistant-footer">
-      <input type="text" id="assistant-input" placeholder="Ask me anything — math, science, doubts..." />
-      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()">🎤</button>
-      <button class="send-btn" onclick="sendAssistantMessage()">➤</button>
-    </div>
-  </div>
-
   <!-- ========== SCRIPTS ========== -->
   <!-- Firebase (if you use it for syncing) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -229,7 +209,5 @@
   <!-- Dashboard Logic -->
   <script src="js/dashboard.js"></script>
 
-  <!-- AI Assistant (Puter.js powered) -->
-  <script src="js/assistant.js"></script>
 </body>
 </html>
