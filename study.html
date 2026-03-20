@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Tracker — Study Mode</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="study">
+  <div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">📚</div>
+        <div><h1>StudyTracker</h1><span>Productivity System</span></div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="subjects.html" class="nav-item"><span class="nav-icon">📚</span> Subjects</a>
+        <a href="homework.html" class="nav-item"><span class="nav-icon">📝</span> Homework</a>
+        <a href="assignments.html" class="nav-item"><span class="nav-icon">📑</span> Assignments</a>
+        <a href="tests.html" class="nav-item"><span class="nav-icon">📊</span> Test Analysis</a>
+        <a href="study.html" class="nav-item active"><span class="nav-icon">🌑</span> Study Mode</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="nav-item" onclick="toggleAssistant()"><span class="nav-icon">🤖</span> AI Assistant</div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="page-wrapper">
+
+        <div class="page-header">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="mobile-menu-btn" onclick="openSidebar()">☰</button>
+            <h1>🌑 Study Mode</h1>
+          </div>
+          <button class="btn btn-primary" onclick="enterStudyMode()">Enter Focus Mode</button>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="grid-2 mb-24">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">⏱ Timer Presets</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+              <button class="btn btn-secondary preset-btn active" data-minutes="25" onclick="setTimerPreset(25)">25 min</button>
+              <button class="btn btn-secondary preset-btn" data-minutes="30" onclick="setTimerPreset(30)">30 min</button>
+              <button class="btn btn-secondary preset-btn" data-minutes="45" onclick="setTimerPreset(45)">45 min</button>
+              <button class="btn btn-secondary preset-btn" data-minutes="60" onclick="setTimerPreset(60)">60 min</button>
+              <button class="btn btn-secondary preset-btn" data-minutes="90" onclick="setTimerPreset(90)">90 min</button>
+              <button class="btn btn-secondary preset-btn" data-minutes="120" onclick="setTimerPreset(120)">2 hr</button>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <input type="number" id="custom-minutes" class="form-input" placeholder="Custom minutes" min="1" max="300" style="max-width:160px;" />
+              <button class="btn btn-primary btn-sm" onclick="setCustomTimer()">Set</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🎵 Music</span>
+            </div>
+            <div style="margin-bottom:16px;">
+              <div class="file-upload" style="display:block;">
+                <input type="file" accept="audio/*" onchange="uploadMusic(this)" />
+                <div class="file-upload-label" style="display:flex;width:100%;justify-content:center;padding:16px;">🎵 Upload Audio File</div>
+              </div>
+            </div>
+            <p id="music-name" style="font-size:13px;color:var(--text-muted);text-align:center;">No file selected</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🎨 Color Theme</span>
+          </div>
+          <div id="color-options" style="display:flex;gap:12px;"></div>
+        </div>
+
+        <div class="card mt-24">
+          <div class="card-header">
+            <span class="card-title">⌨️ Keyboard Shortcuts</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+            <div style="padding:12px;background:var(--bg-surface);border-radius:var(--radius-sm);font-size:13px;">
+              <span style="font-family:var(--font-mono);background:var(--bg-card);padding:2px 8px;border-radius:4px;">Space</span> — Start/Pause
+            </div>
+            <div style="padding:12px;background:var(--bg-surface);border-radius:var(--radius-sm);font-size:13px;">
+              <span style="font-family:var(--font-mono);background:var(--bg-card);padding:2px 8px;border-radius:4px;">R</span> — Reset Timer
+            </div>
+            <div style="padding:12px;background:var(--bg-surface);border-radius:var(--radius-sm);font-size:13px;">
+              <span style="font-family:var(--font-mono);background:var(--bg-card);padding:2px 8px;border-radius:4px;">Esc</span> — Exit Focus
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== STUDY MODE FULLSCREEN OVERLAY ========== -->
+  <div class="study-mode-container" id="study-mode-overlay">
+
+    <!-- Settings (top right) -->
+    <div class="study-settings" id="color-options-study"></div>
+
+    <!-- Flip Clock -->
+    <div class="flip-clock">
+      <div class="flip-unit">
+        <div class="flip-card" id="flip-hours">00</div>
+        <div class="flip-label">Hours</div>
+      </div>
+      <div class="flip-separator">:</div>
+      <div class="flip-unit">
+        <div class="flip-card" id="flip-minutes">25</div>
+        <div class="flip-label">Minutes</div>
+      </div>
+      <div class="flip-separator">:</div>
+      <div class="flip-unit">
+        <div class="flip-card" id="flip-seconds">00</div>
+        <div class="flip-label">Seconds</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="study-controls">
+      <button class="study-btn start" id="btn-start" onclick="startTimer()">▶ Start</button>
+      <button class="study-btn pause" id="btn-pause" onclick="pauseTimer()" style="display:none;">⏸ Pause</button>
+      <button class="study-btn reset" onclick="resetTimer()">↻ Reset</button>
+      <button class="study-btn exit" onclick="exitStudyMode()">✕ Exit</button>
+    </div>
+
+    <!-- Music Player -->
+    <div class="study-music">
+      <span>🎵</span>
+      <audio id="study-audio" controls loop style="height:36px;"></audio>
+      <div class="file-upload">
+        <input type="file" accept="audio/*" onchange="uploadMusic(this)" />
+        <div class="file-upload-label" style="border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);">Upload</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- AI Assistant -->
+  <div class="assistant-fab" onclick="toggleAssistant()">🤖</div>
+  <div class="assistant-panel" id="assistant-panel">
+    <div class="assistant-header">
+      <h3>🤖 Study Assistant</h3>
+      <div class="modal-close" onclick="toggleAssistant()">✕</div>
+    </div>
+    <div class="assistant-body" id="assistant-body"></div>
+    <div class="assistant-footer">
+      <input type="text" id="assistant-input" placeholder="Ask me anything..." />
+      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()">🎤</button>
+      <button class="send-btn" onclick="sendAssistantMessage()">➤</button>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="js/api.js"></script>
+  <script src="js/study.js"></script>
+  <script src="js/assistant.js"></script>
+  <script>
+    function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('active'); }
+    function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('active'); }
+  </script>
+</body>
+</html>
