@@ -1,10 +1,11 @@
+/*
 /* ============================================
    AI STUDY ASSISTANT — Puter.js (Free, No API Key)
    ============================================ */
-
+,,,
 // ── STATE ──
-let assistantOpen = false;
-let isListening = false;
+//let assistantOpen = false;
+/*let isListening = false;
 let isSpeaking = false;
 let conversationHistory = [];
 let flashcardSets = {};
@@ -17,7 +18,7 @@ let wanderInterval = null;
 let proactiveInterval = null;
 let lastInteraction = Date.now();
 let puterReady = false;
-let speechRecognition = null;
+let speechRecognition = null;,,,
 
 // ── PUTER.JS CONFIG ──
 const AI_MODEL = 'gpt-4o-mini'; // Free via Puter
@@ -26,7 +27,7 @@ const TTS_MODEL = 'openai/tts-1'; // Free TTS via Puter
 /* ============================================
    INITIALIZATION
    ============================================ */
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
   initPuter();
   initSpeechRecognition();
   initAssistantData();
@@ -90,7 +91,7 @@ function initAssistantData() {
 /* ============================================
    SYSTEM CONTEXT
    ============================================ */
-function buildSystemContext() {
+/*function buildSystemContext() {
   const subjects = typeof LocalDB !== 'undefined' ? LocalDB.get('Subjects') : [];
   const chapters = typeof LocalDB !== 'undefined' ? LocalDB.get('Chapters') : [];
   const homework = typeof LocalDB !== 'undefined' ? LocalDB.get('Homework') : [];
@@ -136,7 +137,7 @@ RULES:
    3D AVATAR SYSTEM
    ============================================ */
 // Replace inside assistant.js
-function initAvatar() {
+/*function initAvatar() {
   const avatar = document.createElement('div');
   avatar.id = 'ai-avatar';
   avatar.className = 'ai-avatar';
@@ -246,7 +247,7 @@ function trackEyes(e) {
 }
 
 /* ── AVATAR STATES ── */
-function setAvatarState(state) {
+/*function setAvatarState(state) {
   avatarState = state;
   const body = document.getElementById('avatar-body');
   if (!body) return;
@@ -269,7 +270,7 @@ function setAvatarState(state) {
 }
 
 /* ── SPEECH BUBBLE ── */
-function avatarSpeak(text, withVoice = false) {
+/*function avatarSpeak(text, withVoice = false) {
   const bubble = document.getElementById('avatar-speech-bubble');
   const textEl = document.getElementById('avatar-speech-text');
   if (!bubble || !textEl) return;
@@ -294,7 +295,7 @@ function avatarReact(reaction) {
   setTimeout(() => setAvatarState('idle'), 2500);
 }
 
-/* ── WANDERING ── */
+/* ── WANDERING ── 
 function startWandering() {
   stopWandering();
   wanderInterval = setInterval(() => {
@@ -331,7 +332,7 @@ function wanderStep() {
   }, 2100);
 }
 
-/* ── AVATAR CLICK ── */
+/* ── AVATAR CLICK ── *
 function onAvatarClick() {
   lastInteraction = Date.now();
   if (!assistantOpen) {
@@ -352,7 +353,7 @@ function onAvatarClick() {
 
 /* ============================================
    PROACTIVE ENGINE
-   ============================================ */
+   ============================================ *
 function startProactiveEngine() {
   proactiveInterval = setInterval(() => {
     if (assistantOpen || avatarState !== 'idle') return;
@@ -412,7 +413,7 @@ function getProactivePrompt() {
 
 /* ============================================
    TEXT-TO-SPEECH (Puter TTS + Browser Fallback)
-   ============================================ */
+   ============================================ *
 async function speakText(text) {
   const cleaned = text.replace(/[*#`_{}[\]]/g, '').replace(/<[^>]*>/g, '').replace(/\{[\s\S]*\}/g, '').trim();
   if (cleaned.length < 5) return;
@@ -494,7 +495,7 @@ function stopSpeaking() {
 
 /* ============================================
    VOICE INPUT
-   ============================================ */
+   ============================================ *
 function toggleVoice() {
   if (!speechRecognition) {
     if (typeof showToast === 'function') showToast('Voice not supported in this browser', 'warning');
@@ -526,7 +527,7 @@ function stopListening() {
 
 /* ============================================
    MESSAGES UI
-   ============================================ */
+   ============================================ *
 function addBotMessage(text, isHTML = false) {
   const body = document.getElementById('assistant-body');
   if (!body) return;
@@ -572,22 +573,11 @@ function addTypingIndicator() {
 
 function removeTypingIndicator() {
   const el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-function formatMessage(text) {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code>$1</code>')
-    .replace(/\n/g, '<br>')
-    .replace(/\\\((.*?)\\\)/g, '<span class="math-inline">$1</span>')
-    .replace(/\\\[(.*?)\\\]/g, '<div class="math-block">$1</div>');
-}
+  if (el) 
 
 /* ============================================
    SEND MESSAGE
-   ============================================ */
+   ============================================ *
 function sendAssistantMessage() {
   const input = document.getElementById('assistant-input');
   const text = input.value.trim();
@@ -600,7 +590,7 @@ function sendAssistantMessage() {
 
 /* ============================================
    TOGGLE PANEL
-   ============================================ */
+   ============================================ *
 function toggleAssistant() {
   assistantOpen = !assistantOpen;
   const panel = document.getElementById('assistant-panel');
@@ -631,7 +621,7 @@ function toggleAssistant() {
 
 /* ============================================
    COMMAND PROCESSING
-   ============================================ */
+   ============================================ *
 async function processCommand(input) {
   const cmd = input.toLowerCase().trim();
 
@@ -750,7 +740,7 @@ async function processCommand(input) {
 
 /* ============================================
    PUTER AI CALL (FREE — No API Key!)
-   ============================================ */
+   ============================================ *
 async function askAI(userMessage) {
   addTypingIndicator();
   setAvatarState('thinking');
@@ -840,7 +830,7 @@ async function askAI(userMessage) {
 
 /* ============================================
    IMAGE UPLOAD (DOUBT SOLVING)
-   ============================================ */
+   ============================================ *
 function triggerImageUpload() {
   avatarSpeak('Upload your doubt image!', true);
 
@@ -930,7 +920,7 @@ function askForManualInput() {
 
 /* ============================================
    PDF UPLOAD
-   ============================================ */
+   ============================================ *
 function triggerPDFUpload() {
   const html = `
     <div class="pdf-upload-area">
@@ -1029,7 +1019,7 @@ function findRelevantPDF(query) {
 
 /* ============================================
    FLASHCARDS
-   ============================================ */
+   ============================================ *
 async function generateFlashcards(subject, chapter, originalCmd) {
   setAvatarState('thinking');
   avatarSpeak('Creating flashcards...', true);
@@ -1111,7 +1101,7 @@ function showSavedFlashcards() {
 
 /* ============================================
    QUIZZES
-   ============================================ */
+   ============================================ *
 async function generateQuiz(subject, chapter, originalCmd) {
   setAvatarState('thinking');
   avatarSpeak('Preparing your quiz!', true);
@@ -1186,7 +1176,7 @@ function handleQuizAnswer(answer) {
 
 /* ============================================
    AI SUGGESTION & PROGRESS
-   ============================================ */
+   ============================================ *
 async function getAISuggestion() {
   const subjects = typeof LocalDB !== 'undefined' ? LocalDB.get('Subjects') : [];
   const homework = typeof LocalDB !== 'undefined' ? LocalDB.get('Homework') : [];
@@ -1214,7 +1204,7 @@ function showProgress() {
 
 /* ============================================
    HELP MENU
-   ============================================ */
+   ============================================ *
 function showHelpMenu() {
   const html = `<div class="help-menu">
     <p><strong>🤖 What I Can Do:</strong></p>
@@ -1231,7 +1221,7 @@ function showHelpMenu() {
 
 /* ============================================
    HELPERS
-   ============================================ */
+   ============================================ *
 function extractSubject(text) {
   const subjects = ['physics', 'chemistry', 'math', 'maths', 'mathematics', 'biology', 'english',
     'hindi', 'history', 'geography', 'economics', 'political science', 'computer science',
@@ -1261,10 +1251,5 @@ function getGreeting() {
   return `${greet}! 👋 I'm StudyBot — your free AI study companion! Powered by Puter.js 🚀\n\nI can answer questions, create flashcards, quizzes, solve image doubts, and read answers aloud with AI voice!\n\nYou have ${pending} pending homework. Ask me anything or say **"help"**!`;
 }
 
-/* ── Enter Key ── */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    const input = document.getElementById('assistant-input');
-    if (input && document.activeElement === input) sendAssistantMessage();
-  }
-});
+
+});*/
